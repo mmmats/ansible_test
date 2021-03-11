@@ -1,20 +1,20 @@
 ---
-- name: installation
+- name: Installation
   hosts: all
   tasks:
-    - name: package htop
+    - name: Installation htop
       apt:
         name: htop
         state: present
-    - name: package zsh
+    - name: Installation zsh
       apt:
         name: zsh
         state: present
-    - name: installation de git
+    - name: Installation git
       apt:
         name: git
         state: present
-    - name: Install required packages
+    - name: Installation required packages
       apt:
         name: "{{item}}"
         state: latest
@@ -42,20 +42,16 @@
         - docker-ce
         - docker-ce-cli
         - containerd.io
-    - name: package pip
-      apt:
-        name: python-pip
-        state: present
-    - name: Installation modules python
-      command: pip install docker
-    - name: Installation modules python
+    - name: Installation python-docker
       apt: 
         name: python-docker
     - name: Lancement container apache2
       docker_container:
         name: apache2
         image: httpd
-        state: present
+        state: started
+        restart: yes
+        recreate: yes
         ports:
-          - "8000:80"
+          - "9000:80"
 ...
