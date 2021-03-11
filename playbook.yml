@@ -1,5 +1,5 @@
 ---
-- name: installation htop
+- name: installation
   hosts: all
   tasks:
     - name: package htop
@@ -31,7 +31,7 @@
         state: present
     - name: Docker apt repository
       apt_repository:
-        repo: deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian buster stable
+        repo: deb https://download.docker.com/linux/debian buster stable
         state: present
     - name: Installation Docker
       apt:
@@ -42,4 +42,20 @@
         - docker-ce
         - docker-ce-cli
         - containerd.io
+    - name: package pip
+      apt:
+        name: python-pip
+        state: present
+    - name: Installation modules python
+      command: pip install docker
+    - name: Installation modules python
+      apt: 
+        name: python-docker
+    - name: Lancement container apache2
+      docker_container:
+        name: apache2
+        image: httpd
+        state: present
+        ports:
+          - "8000:80"
 ...
